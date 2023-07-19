@@ -2,7 +2,7 @@ package models
 
 import "GoBlog/config"
 
-type HomeData struct {
+type HomeResponse struct {
 	config.Viewer
 	Categorys []Category
 	Posts     []PostMore
