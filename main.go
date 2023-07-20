@@ -1,10 +1,16 @@
 package main
 
 import (
+	"GoBlog/common"
 	"GoBlog/router"
 	"fmt"
 	"net/http"
 )
+
+func init() {
+	//模板加载
+	common.LoadTemplate()
+}
 
 func main() {
 	server := http.Server{
