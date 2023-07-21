@@ -62,7 +62,7 @@ func readTemplate(templates []string, templateDir string) []TemplateBlog {
 		home := templateDir + "home.html"
 
 		//映射页面上的方法
-		t.Funcs(template.FuncMap{"isODD": isODD, "getNextName": getNextName, "date": date})
+		t.Funcs(template.FuncMap{"isODD": IsODD, "getNextName": GetNextName, "date": Date, "dateDay": DateDay})
 
 		t, err := t.ParseFiles(templateDir+viewName, header, footer, pagination, personal, postList, home)
 		if err != nil {
@@ -73,14 +73,19 @@ func readTemplate(templates []string, templateDir string) []TemplateBlog {
 	return tbs
 }
 
-func getNextName(navigation []string, index int) string {
+func DateDay(date time.Time) string {
+	//格式化（go特色）
+	return date.Format("2006-01-02 15:30:05")
+}
+
+func GetNextName(navigation []string, index int) string {
 	return navigation[index+1]
 }
 
-func isODD(num int) bool {
+func IsODD(num int) bool {
 	return num%2 == 0
 }
 
-func date(layout string) string {
+func Date(layout string) string {
 	return time.Now().Format(layout)
 }
