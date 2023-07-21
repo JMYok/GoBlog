@@ -2,7 +2,7 @@ package common
 
 import (
 	"GoBlog/config"
-	models "GoBlog/models/template"
+	"GoBlog/models/template"
 )
 
 var Template models.HtmlTemplate
