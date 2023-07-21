@@ -15,6 +15,6 @@ func Router() {
 	http.HandleFunc("/api/v1/post", api.API.SaveAndUpdatePost)
 
 	//3、静态资源映射
-	//TODO index.html 中 js路径为/resource 为什么默认public resource
+	//TODO index.html 中 js路径为/resource 为什么默认public/resource
 	http.Handle("/public/resource/", http.StripPrefix("/public/resource/", http.FileServer(http.Dir("public/resource/"))))
 }

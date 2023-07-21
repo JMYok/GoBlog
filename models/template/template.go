@@ -28,13 +28,17 @@ func (t *TemplateBlog) WriteData(w io.Writer, data interface{}) {
 	}
 }
 
-func InitTemplate(templateDir string) HtmlTemplate {
-	tp := readTemplate(
+func InitTemplate(templateDir string) (HtmlTemplate, error) {
+	tp, err := readTemplate(
 		[]string{"index", "category", "custom", "detail", "login", "pigeonhole", "writing"},
 		templateDir,
 	)
-
 	var htmlTemplate HtmlTemplate
+
+	if err != nil {
+		return htmlTemplate, err
+	}
+
 	htmlTemplate.Index = tp[0]
 	htmlTemplate.Category = tp[1]
 	htmlTemplate.Custom = tp[2]
@@ -43,10 +47,10 @@ func InitTemplate(templateDir string) HtmlTemplate {
 	htmlTemplate.Pigeonhole = tp[5]
 	htmlTemplate.Writing = tp[6]
 
-	return htmlTemplate
+	return htmlTemplate, nil
 }
 
-func readTemplate(templates []string, templateDir string) []TemplateBlog {
+func readTemplate(templates []string, templateDir string) ([]TemplateBlog, error) {
 	var tbs []TemplateBlog
 
 	for _, view := range templates {
@@ -67,10 +71,11 @@ func readTemplate(templates []string, templateDir string) []TemplateBlog {
 		t, err := t.ParseFiles(templateDir+viewName, header, footer, pagination, personal, postList, home)
 		if err != nil {
 			log.Println("解析模板出错：", err)
+			return nil, err
 		}
 		tbs = append(tbs, TemplateBlog{t})
 	}
-	return tbs
+	return tbs, nil
 }
 
 func DateDay(date time.Time) string {
