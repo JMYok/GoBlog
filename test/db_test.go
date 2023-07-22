@@ -10,7 +10,7 @@ import (
 )
 
 func TestMysqlConnection(t *testing.T) {
-	dataSourceName := fmt.Sprintf("root@tcp(localhost:3306)/goblog?charset=utf8&loc=%s&parseTime=true", url.QueryEscape("Asia/Shanghai"))
+	dataSourceName := fmt.Sprintf("root:rootroot@tcp(localhost:3306)/goblog?charset=utf8&loc=%s&parseTime=true", url.QueryEscape("Asia/Shanghai"))
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
 		t.Error(err)
@@ -25,7 +25,7 @@ func TestMysqlConnection(t *testing.T) {
 	db.SetConnMaxIdleTime(time.Minute * 1)
 	err = db.Ping()
 	if err != nil {
-		t.Error("数据库无法连接,ping失败")
+		t.Error(err)
 		_ = db.Close()
 	}
 }
