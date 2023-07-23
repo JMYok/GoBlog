@@ -1,6 +1,22 @@
 package dao
 
-import "GoBlog/models"
+import (
+	"GoBlog/models"
+	"log"
+)
+
+// 统计博客数量
+func CountGetAllPost() (int, error) {
+	rows, err := DB.Query("select count(*) from blog_post ")
+	if err != nil {
+		log.Println(err)
+		return -1, err
+	}
+	rows.Next()
+	var postCnt int
+	_ = rows.Scan(&postCnt)
+	return postCnt, nil
+}
 
 func GetPostInfo(page, pageSize int) ([]models.Post, error) {
 	page = (page - 1) * pageSize

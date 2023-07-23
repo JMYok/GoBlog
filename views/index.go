@@ -19,6 +19,7 @@ func (*HTMLApi) IndexPage(w http.ResponseWriter, r *http.Request) {
 		indexTemplate.WriteError(w, errors.New("系统错误,请联系站长！"))
 		return
 	}
+	//得到url中page参数
 	pageStr := r.Form.Get("page")
 	page := 1
 	if pageStr != "" {

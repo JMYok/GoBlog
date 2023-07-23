@@ -49,10 +49,31 @@ func GetAllIndexInfo(page, pageSize int) (*models.HomeResponse, error) {
 		return nil, err
 	}
 
+	//总条数
+	total, err := dao.CountGetAllPost()
+	if err != nil {
+		panic(err)
+	}
+	//总页数
+	pageCnt := (total-1)/pageSize + 1
+	var pages []int
+	for idx := 1; idx <= pageCnt; idx++ {
+		pages = append(pages, idx)
+	}
+	var beforePageEnd bool
+	if page < pageCnt {
+		beforePageEnd = true
+	}
+
 	var hr = &models.HomeResponse{
 		Viewer:     config.Cfg.Viewer,
 		Categories: categories,
-		Posts:      postMores}
+		Posts:      postMores,
+		Total:      total,
+		Page:       page,
+		Pages:      pages,
+		PageEnd:    beforePageEnd,
+	}
 
 	return hr, nil
 }
