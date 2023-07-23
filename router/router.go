@@ -10,6 +10,7 @@ import (
 func Router() {
 	//1. 页面
 	http.HandleFunc("/", views.HTML.IndexPage)
+	http.HandleFunc("/c/", views.HTML.CategoryPage)
 
 	//2. api
 	http.HandleFunc("/api/v1/post", api.API.SaveAndUpdatePost)
@@ -17,4 +18,5 @@ func Router() {
 	//3、静态资源映射
 	//TODO index.html 中 js路径为/resource 为什么默认public/resource
 	http.Handle("/public/resource/", http.StripPrefix("/public/resource/", http.FileServer(http.Dir("public/resource/"))))
+	http.Handle("/resource/", http.StripPrefix("/resource/", http.FileServer(http.Dir("public/resource/"))))
 }

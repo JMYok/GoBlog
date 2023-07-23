@@ -26,7 +26,7 @@ func (*HTMLApi) IndexPage(w http.ResponseWriter, r *http.Request) {
 		page, _ = strconv.Atoi(pageStr)
 	}
 	//每页显示的数量
-	pageSize := 5
+	pageSize := 10
 	hr, err := service.GetAllIndexInfo(page, pageSize)
 	if err != nil {
 		log.Println("index获取数据出错：", err)
