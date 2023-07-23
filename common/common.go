@@ -2,7 +2,12 @@ package common
 
 import (
 	"GoBlog/config"
+	models2 "GoBlog/models"
 	"GoBlog/models/template"
+	"encoding/json"
+	"io/ioutil"
+	"log"
+	"net/http"
 	"sync"
 )
 
@@ -21,4 +26,24 @@ func LoadTemplate() {
 		}
 	}()
 	wg.Wait()
+}
+
+func GetRequestJsonParam(r *http.Request) map[string]interface{} {
+	var params map[string]interface{}
+	body, _ := ioutil.ReadAll(r.Body)
+	_ = json.Unmarshal(body, &params)
+	return params
+}
+
+func Success(w http.ResponseWriter, data interface{}) {
+	var result models2.Result
+	result.Code = 200
+	result.Data = data
+	result.Error = ""
+	resultJson, _ := json.Marshal(result)
+	w.Header().Set("Content-Type", "application/json")
+	_, err := w.Write(resultJson)
+	if err != nil {
+		log.Println(err)
+	}
 }
