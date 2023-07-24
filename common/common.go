@@ -47,3 +47,15 @@ func Success(w http.ResponseWriter, data interface{}) {
 		log.Println(err)
 	}
 }
+
+func Error(w http.ResponseWriter, err error) {
+	var result models2.Result
+	result.Code = 500
+	result.Error = err.Error()
+	resultJson, _ := json.Marshal(result)
+	w.Header().Set("Content-Type", "application/json")
+	_, err = w.Write(resultJson)
+	if err != nil {
+		log.Println(err)
+	}
+}
