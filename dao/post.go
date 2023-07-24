@@ -5,6 +5,36 @@ import (
 	"log"
 )
 
+func GetPostByPid(pid int) (*models.Post, error) {
+	row := DB.QueryRow("select * from blog_post where pid=?", pid)
+
+	if row.Err() != nil {
+		log.Println(row.Err())
+		return nil, row.Err()
+	}
+
+	var post = &models.Post{}
+	err := row.Scan(
+		&post.Pid,
+		&post.Title,
+		&post.Content,
+		&post.Markdown,
+		&post.CategoryId,
+		&post.UserId,
+		&post.ViewCount,
+		&post.Type,
+		&post.Slug,
+		&post.CreateAt,
+		&post.UpdateAt,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return post, nil
+}
+
 func CountGetPostByCategoryId(cid int) (int, error) {
 	rows, err := DB.Query("select count(*)  from blog_post where category_id = ? ", cid)
 	if err != nil {

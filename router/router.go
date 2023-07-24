@@ -11,6 +11,7 @@ func Router() {
 	//1. 页面
 	http.HandleFunc("/", views.HTML.IndexPage)
 	http.HandleFunc("/c/", views.HTML.CategoryPage)
+	http.HandleFunc("/p/", views.HTML.DetailPage)
 	http.HandleFunc("/login", views.HTML.LoginPage)
 
 	//2. api
@@ -22,4 +23,5 @@ func Router() {
 	http.Handle("/public/resource/", http.StripPrefix("/public/resource/", http.FileServer(http.Dir("public/resource/"))))
 	http.Handle("/resource/", http.StripPrefix("/resource/", http.FileServer(http.Dir("public/resource/"))))
 	http.Handle("/c/resource/", http.StripPrefix("/c/resource/", http.FileServer(http.Dir("public/resource/"))))
+	http.Handle("/p/resource/", http.StripPrefix("/p/resource/", http.FileServer(http.Dir("public/resource/"))))
 }
