@@ -6,6 +6,7 @@ import (
 	"GoBlog/models"
 	models2 "GoBlog/models/template"
 	"html/template"
+	"log"
 )
 
 func GetPostDetail(pid int) (*models.PostRes, error) {
@@ -40,4 +41,16 @@ func GetPostDetail(pid int) (*models.PostRes, error) {
 	}
 
 	return postRes, nil
+}
+
+func Writing() (wr models.WritingRes) {
+	wr.Title = config.Cfg.Viewer.Title
+	wr.CdnURL = config.Cfg.System.CdnURL
+	categories, err := dao.GetAllCategory()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	wr.Categories = categories
+	return wr
 }
