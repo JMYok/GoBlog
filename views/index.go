@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 // IndexPage 返回主页html逻辑
@@ -27,7 +28,11 @@ func (*HTMLApi) IndexPage(w http.ResponseWriter, r *http.Request) {
 	}
 	//每页显示的数量
 	pageSize := 10
-	hr, err := service.GetAllIndexInfo(page, pageSize)
+
+	//取得URL slug 自定义路径
+	path := r.URL.Path
+	slug := strings.TrimPrefix(path, "/")
+	hr, err := service.GetAllIndexInfo(slug, page, pageSize)
 	if err != nil {
 		log.Println("index获取数据出错：", err)
 		indexTemplate.WriteError(w, errors.New("系统错误,请联系站长！"))

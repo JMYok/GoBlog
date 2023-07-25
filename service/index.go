@@ -10,13 +10,19 @@ import (
 )
 
 // GetAllIndexInfo 获取主页所有数据
-func GetAllIndexInfo(page, pageSize int) (*models.HomeResponse, error) {
+func GetAllIndexInfo(slug string, page, pageSize int) (*models.HomeResponse, error) {
 	categories, err := dao.GetAllCategory()
 	if err != nil {
 		log.Println(err)
 		return nil, err
 	}
-	posts, err := dao.GetPostInfo(page, pageSize)
+	var posts []models.Post
+	if slug == "" {
+		posts, err = dao.GetPostInfo(page, pageSize)
+	} else {
+		posts, err = dao.GetPostInfoBySlug(slug, page, pageSize)
+	}
+
 	var postMores []models.PostMore
 	for _, post := range posts {
 		categoryName, _ := dao.GetCategoryNameById(post.CategoryId)
@@ -50,7 +56,12 @@ func GetAllIndexInfo(page, pageSize int) (*models.HomeResponse, error) {
 	}
 
 	//总条数
-	total, err := dao.CountGetAllPost()
+	var total int
+	if slug == "" {
+		total, err = dao.CountGetAllPost()
+	} else {
+		total, err = dao.CountGetAllPostBySlug(slug)
+	}
 	if err != nil {
 		panic(err)
 	}
