@@ -19,6 +19,7 @@ func Router() {
 	//2. api
 	http.HandleFunc("/api/v1/post", api.API.SaveAndUpdatePost)
 	http.HandleFunc("/api/v1/post/", api.API.GetPost)
+	http.HandleFunc("/api/v1/post/search", api.API.SearchPost)
 	http.HandleFunc("/api/v1/login", api.API.Login)
 	//http.HandleFunc("/api/v1/qiniu/token", api.API.QiniuToken)
 

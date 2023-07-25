@@ -9,6 +9,18 @@ import (
 	"log"
 )
 
+func SearchPost(condition string) []models.SearchResp {
+	posts, _ := dao.GetPostSearch(condition)
+	var searchResps []models.SearchResp
+	for _, post := range posts {
+		searchResps = append(searchResps, models.SearchResp{
+			Pid:   post.Pid,
+			Title: post.Title,
+		})
+	}
+	return searchResps
+}
+
 func GetPostDetail(pid int) (*models.PostRes, error) {
 	post, err := dao.GetPostByPid(pid)
 

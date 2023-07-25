@@ -13,6 +13,13 @@ import (
 	"time"
 )
 
+func (*APIHandler) SearchPost(w http.ResponseWriter, r *http.Request) {
+	_ = r.ParseForm()
+	condition := r.Form.Get("val")
+	searchResp := service.SearchPost(condition)
+	common.Success(w, searchResp)
+}
+
 func (*APIHandler) GetPost(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	pIdStr := strings.TrimPrefix(path, "/api/v1/post/")
