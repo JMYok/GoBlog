@@ -43,6 +43,10 @@ func GetPostDetail(pid int) (*models.PostRes, error) {
 	return postRes, nil
 }
 
+func SavePost(post *models.Post) {
+	dao.SavePost(post)
+}
+
 func Writing() (wr models.WritingRes) {
 	wr.Title = config.Cfg.Viewer.Title
 	wr.CdnURL = config.Cfg.System.CdnURL

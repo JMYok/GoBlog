@@ -17,6 +17,7 @@ func Router() {
 
 	//2. api
 	http.HandleFunc("/api/v1/post", api.API.SaveAndUpdatePost)
+	http.HandleFunc("/api/v1/post/", api.API.GetPost)
 	http.HandleFunc("/api/v1/login", api.API.Login)
 
 	//3、静态资源映射
