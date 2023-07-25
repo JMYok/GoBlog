@@ -25,4 +25,5 @@ func Router() {
 	http.Handle("/resource/", http.StripPrefix("/resource/", http.FileServer(http.Dir("public/resource/"))))
 	http.Handle("/c/resource/", http.StripPrefix("/c/resource/", http.FileServer(http.Dir("public/resource/"))))
 	http.Handle("/p/resource/", http.StripPrefix("/p/resource/", http.FileServer(http.Dir("public/resource/"))))
+	http.Handle("/p/img/", http.StripPrefix("/p/img/", http.FileServer(http.Dir("public/resource/"))))
 }
