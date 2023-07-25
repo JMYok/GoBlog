@@ -65,6 +65,27 @@ func (*APIHandler) SaveAndUpdatePost(w http.ResponseWriter, r *http.Request) {
 		service.SavePost(post)
 		common.Success(w, post)
 	case http.MethodPut:
-
+		params := common.GetRequestJsonParam(r)
+		cId, _ := strconv.Atoi(params["categoryId"].(string))
+		content := params["content"].(string)
+		markdown := params["markdown"].(string)
+		slug := params["slug"].(string)
+		title := params["title"].(string)
+		postType := int(params["type"].(float64))
+		pid := int(params["pid"].(float64))
+		post := &models.Post{
+			Pid:        pid,
+			Title:      title,
+			Slug:       slug,
+			Content:    content,
+			Markdown:   markdown,
+			CategoryId: cId,
+			UserId:     uid,
+			Type:       postType,
+			CreateAt:   time.Now(),
+			UpdateAt:   time.Now(),
+		}
+		service.UpdatePost(post)
+		common.Success(w, post)
 	}
 }

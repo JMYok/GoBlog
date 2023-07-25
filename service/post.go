@@ -47,6 +47,10 @@ func SavePost(post *models.Post) {
 	dao.SavePost(post)
 }
 
+func UpdatePost(post *models.Post) {
+	dao.UpdatePost(post)
+}
+
 func Writing() (wr models.WritingRes) {
 	wr.Title = config.Cfg.Viewer.Title
 	wr.CdnURL = config.Cfg.System.CdnURL

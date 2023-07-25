@@ -37,6 +37,7 @@ function initEditor() {
 function uploadImage(file, cb) {
   const config = {
     useCdnDomain: true,
+    //七牛云分区
     region: qiniu.region.z1
   };
   const putExtra = {
