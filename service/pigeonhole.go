@@ -1,9 +1,9 @@
 package service
 
 import (
-	"ms-go-blog/config"
-	"ms-go-blog/dao"
-	"ms-go-blog/models"
+	"GoBlog/config"
+	"GoBlog/dao"
+	"GoBlog/models"
 )
 
 func FindPostPigeonhole() models.PigeonholeRes {
@@ -16,11 +16,11 @@ func FindPostPigeonhole() models.PigeonholeRes {
 		month := at.Format("2006-01")
 		pigeonholeMap[month] = append(pigeonholeMap[month], post)
 	}
-	categorys, _ := dao.GetAllCategory()
+	categories, _ := dao.GetAllCategory()
 	return models.PigeonholeRes{
 		Viewer:       config.Cfg.Viewer,
 		SystemConfig: config.Cfg.System,
-		Categorys:    categorys,
+		Categories:   categories,
 		Lines:        pigeonholeMap,
 	}
 }
