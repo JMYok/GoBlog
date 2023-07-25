@@ -14,5 +14,5 @@ func (*APIHandler) Login(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		common.Error(w, err)
 	}
-	common.Success(w, loginRes)
+	common.Success(w, *loginRes)
 }
