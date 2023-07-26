@@ -8,17 +8,17 @@ import (
 
 // 与数据库表对应
 type Post struct {
-	Pid        int       `orm:"pid" json:"pid"`               // 文章ID
-	Title      string    `orm:"title" json:"title"`           // 文章ID
-	Slug       string    `orm:"slug" json:"slug"`             // 自定也页面 path
-	Content    string    `orm:"content" json:"content"`       // 文章的html
-	Markdown   string    `orm:"markdown" json:"markdown"`     // *文章的Markdown
-	CategoryId int       `orm:"categoryId" json:"categoryId"` //分类id
-	UserId     int       `orm:"userId" json:"userId"`         //用户id
-	ViewCount  int       `orm:"viewCount" json:"viewCount"`   //查看次数
-	Type       int       `orm:"type" json:"type"`             //文章类型 0 普通，1 自定义文章
-	CreateAt   time.Time `orm:"createAt" json:"createAt"`     // 创建时间
-	UpdateAt   time.Time `orm:"updateAt" json:"updateAt"`     // 更新时间
+	Pid        int       `orm:"pid" json:"pid"`                // 文章ID
+	Title      string    `orm:"title" json:"title"`            // 文章ID
+	Slug       string    `orm:"slug" json:"slug"`              // 自定也页面 path
+	Content    string    `orm:"content" json:"content"`        // 文章的html
+	Markdown   string    `orm:"markdown" json:"markdown"`      // *文章的Markdown
+	CategoryId int       `orm:"category_id" json:"categoryId"` //分类id
+	UserId     int       `orm:"user_id" json:"userId"`         //用户id
+	ViewCount  int       `orm:"view_count" json:"viewCount"`   //查看次数
+	Type       int       `orm:"type" json:"type"`              //文章类型 0 普通，1 自定义文章
+	CreateAt   time.Time `orm:"create_at" json:"createAt"`     // 创建时间
+	UpdateAt   time.Time `orm:"update_at" json:"updateAt"`     // 更新时间
 }
 
 // 多了分类名和用户名

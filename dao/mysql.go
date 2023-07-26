@@ -19,7 +19,7 @@ var DB MsDB
 
 func init() {
 	//执行main之前 先执行init方法
-	dataSourceName := fmt.Sprintf("root@tcp(localhost:3306)/goblog?charset=utf8&loc=%s&parseTime=true", url.QueryEscape("Asia/Shanghai"))
+	dataSourceName := fmt.Sprintf("root:rootroot@tcp(localhost:3306)/goblog?charset=utf8&loc=%s&parseTime=true", url.QueryEscape("Asia/Shanghai"))
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
 		log.Println("连接数据库异常")
@@ -55,9 +55,11 @@ func (d *MsDB) QueryOne(model interface{}, sql string, args ...interface{}) erro
 	vals := make([][]byte, len(columns))
 	scans := make([]interface{}, len(columns))
 	for k := range vals {
+		//取出二维 数组每行的地址，方便之后scan
 		scans[k] = &vals[k]
 	}
 	if rows.Next() {
+		//将一行数据库数据写入到scan中
 		err = rows.Scan(scans...)
 		if err != nil {
 			return err
@@ -65,6 +67,8 @@ func (d *MsDB) QueryOne(model interface{}, sql string, args ...interface{}) erro
 	}
 	var result = make(map[string]interface{})
 	elem := reflect.ValueOf(model).Elem()
+
+	//将每行的值转换为string类型
 	for index, val := range columns {
 		result[val] = string(vals[index])
 	}
