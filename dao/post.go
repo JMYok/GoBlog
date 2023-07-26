@@ -149,7 +149,7 @@ func CountGetPostByCategoryId(cid int) (int, error) {
 	return postCnt, nil
 }
 
-// 统计博客数量
+// CountGetAllPost 统计博客数量
 func CountGetAllPost() (int, error) {
 	rows, err := DB.Query("select count(*) from blog_post ")
 	if err != nil {
