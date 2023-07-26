@@ -2,9 +2,7 @@ package main
 
 import (
 	"GoBlog/common"
-	"GoBlog/router"
-	"fmt"
-	"net/http"
+	"GoBlog/server"
 )
 
 func init() {
@@ -13,14 +11,5 @@ func init() {
 }
 
 func main() {
-	server := http.Server{
-		Addr: "127.0.0.1:8080",
-	}
-
-	//路由
-	router.Router()
-
-	if err := server.ListenAndServe(); err != nil {
-		fmt.Println(err)
-	}
+	server.APP.Start()
 }

@@ -10,6 +10,10 @@ type tomlConfig struct {
 	System SystemConfig
 }
 
+type ServerTomlConfig struct {
+	Server ServerConfig
+}
+
 type Viewer struct {
 	Title       string
 	Description string
@@ -31,6 +35,11 @@ type SystemConfig struct {
 	ValineAppid     string
 	ValineAppkey    string
 	ValineServerURL string
+}
+
+type ServerConfig struct {
+	Ip   string
+	Port string
 }
 
 var Cfg *tomlConfig
