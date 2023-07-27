@@ -9,6 +9,7 @@ import (
 	"strings"
 )
 
+// Context 通过Handler方法注册路由的处理程序。通过ServeHttp处理请求
 var Context = NewContext()
 
 type MsContext struct {
@@ -27,7 +28,7 @@ func NewContext() *MsContext {
 
 var UrlTree = NewTrie()
 
-// 前缀树结构 用于路径参数匹配
+// Trie 前缀树结构 用于路径参数匹配
 type Trie struct {
 	next   map[string]*Trie
 	isWord bool
@@ -40,7 +41,7 @@ func NewTrie() Trie {
 	return *root
 }
 
-// 插入数据， 路由根据 "/" 进行拆分
+// Insert 插入数据， 路由根据 "/" 进行拆分
 func (t *Trie) Insert(word string) {
 	for _, v := range strings.Split(word, "/") {
 		if t.next[v] == nil {
@@ -59,7 +60,7 @@ func (t *Trie) Insert(word string) {
 	t.isWord = true
 }
 
-// 匹配路由
+// Search 匹配路由
 func (t *Trie) Search(word string) (isHave bool, arg map[string]string) {
 	arg = make(map[string]string)
 	isHave = false
@@ -95,6 +96,8 @@ func (ctx *MsContext) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	// /c/1  /c/{id}
 	f := ctx.routers[path]
+
+	//存在路径参数 形如/c/{id}
 	if f == nil {
 		for key, value := range ctx.routers {
 			//判断是否为携带路径参数的
@@ -120,9 +123,12 @@ func (ctx *MsContext) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func (ctx *MsContext) Handler(url string, f func(context *MsContext)) {
 	//前缀树的放入  /c/{id}  /c/1
 	UrlTree.Insert(url)
+
+	//存储当前路由的处理函数
 	ctx.routers[url] = f
 }
 
+// GetPathVariable 获取路径变量值
 func (ctx *MsContext) GetPathVariable(key string) string {
 	return ctx.pathArgs[ctx.Request.URL.Path][key]
 }

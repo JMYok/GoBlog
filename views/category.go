@@ -2,6 +2,7 @@ package views
 
 import (
 	"GoBlog/common"
+	"GoBlog/context"
 	"GoBlog/service"
 	"errors"
 	"log"
@@ -9,6 +10,25 @@ import (
 	"strconv"
 	"strings"
 )
+
+func (*HTMLApi) CategoryNew(ctx *context.MsContext) {
+	categoryTemplate := common.Template.Category
+	cidStr := ctx.GetPathVariable("id")
+	cid, _ := strconv.Atoi(cidStr)
+	pageStr, _ := ctx.GetForm("page")
+	if pageStr == "" {
+		pageStr = "1"
+	}
+	page, _ := strconv.Atoi(pageStr)
+	//每页显示的数量
+	pageSize := 10
+	categoryResponse, err := service.GetCategoryById(cid, page, pageSize)
+	if err != nil {
+		categoryTemplate.WriteError(ctx.W, err)
+		return
+	}
+	categoryTemplate.WriteData(ctx.W, categoryResponse)
+}
 
 func (*HTMLApi) CategoryPage(w http.ResponseWriter, r *http.Request) {
 	categoryTemplate := common.Template.Category
