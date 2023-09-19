@@ -2,12 +2,13 @@ package views
 
 import (
 	"GoBlog/common"
+	"GoBlog/context"
 	"GoBlog/service"
-	"net/http"
 )
 
-func (*HTMLApi) WritePage(w http.ResponseWriter, r *http.Request) {
+func (*HTMLApi) WritePage(ctx *context.MsContext) {
 	writingTemplate := common.Template.Writing
+
 	wr := service.Writing()
-	writingTemplate.WriteData(w, wr)
+	writingTemplate.WriteData(ctx.W, wr)
 }

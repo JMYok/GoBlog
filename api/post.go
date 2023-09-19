@@ -2,6 +2,7 @@ package api
 
 import (
 	"GoBlog/common"
+	"GoBlog/context"
 	"GoBlog/dao"
 	"GoBlog/models"
 	"GoBlog/service"
@@ -9,20 +10,20 @@ import (
 	"errors"
 	"net/http"
 	"strconv"
-	"strings"
 	"time"
 )
 
-func (*APIHandler) SearchPost(w http.ResponseWriter, r *http.Request) {
-	_ = r.ParseForm()
-	condition := r.Form.Get("val")
+func (*APIHandler) SearchPost(ctx *context.MsContext) {
+	_ = ctx.Request.ParseForm()
+	condition, _ := ctx.GetForm("val")
 	searchResp := service.SearchPost(condition)
-	common.Success(w, searchResp)
+	common.Success(ctx.W, searchResp)
 }
 
-func (*APIHandler) GetPost(w http.ResponseWriter, r *http.Request) {
-	path := r.URL.Path
-	pIdStr := strings.TrimPrefix(path, "/api/v1/post/")
+func (*APIHandler) GetPost(ctx *context.MsContext) {
+	w := ctx.W
+
+	pIdStr := ctx.GetPathVariable("pid")
 	pid, err := strconv.Atoi(pIdStr)
 	if err != nil {
 		common.Error(w, errors.New("不识别此请求路径"))
@@ -36,7 +37,10 @@ func (*APIHandler) GetPost(w http.ResponseWriter, r *http.Request) {
 	common.Success(w, post)
 }
 
-func (*APIHandler) SaveAndUpdatePost(w http.ResponseWriter, r *http.Request) {
+func (*APIHandler) SaveAndUpdatePost(ctx *context.MsContext) {
+	r := ctx.Request
+	w := ctx.W
+
 	method := r.Method
 
 	token := r.Header.Get("Authorization")
@@ -50,13 +54,12 @@ func (*APIHandler) SaveAndUpdatePost(w http.ResponseWriter, r *http.Request) {
 
 	switch method {
 	case http.MethodPost:
-		params := common.GetRequestJsonParam(r)
-		cId, _ := strconv.Atoi(params["categoryId"].(string))
-		content := params["content"].(string)
-		markdown := params["markdown"].(string)
-		slug := params["slug"].(string)
-		title := params["title"].(string)
-		postType := int(params["type"].(float64))
+		cId, _ := strconv.Atoi(ctx.GetJson("categoryId").(string))
+		content := ctx.GetJson("content").(string)
+		markdown := ctx.GetJson("markdown").(string)
+		slug := ctx.GetJson("slug").(string)
+		title := ctx.GetJson("title").(string)
+		postType := int(ctx.GetJson("type").(float64))
 		post := &models.Post{
 			Pid:        -1,
 			Title:      title,
@@ -72,14 +75,13 @@ func (*APIHandler) SaveAndUpdatePost(w http.ResponseWriter, r *http.Request) {
 		service.SavePost(post)
 		common.Success(w, post)
 	case http.MethodPut:
-		params := common.GetRequestJsonParam(r)
-		cId, _ := strconv.Atoi(params["categoryId"].(string))
-		content := params["content"].(string)
-		markdown := params["markdown"].(string)
-		slug := params["slug"].(string)
-		title := params["title"].(string)
-		postType := int(params["type"].(float64))
-		pid := int(params["pid"].(float64))
+		cId, _ := strconv.Atoi(ctx.GetJson("categoryId").(string))
+		content := ctx.GetJson("content").(string)
+		markdown := ctx.GetJson("markdown").(string)
+		slug := ctx.GetJson("slug").(string)
+		title := ctx.GetJson("title").(string)
+		postType := int(ctx.GetJson("type").(float64))
+		pid := int(ctx.GetJson("pid").(float64))
 		post := &models.Post{
 			Pid:        pid,
 			Title:      title,

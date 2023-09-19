@@ -2,12 +2,12 @@ package views
 
 import (
 	"GoBlog/common"
+	"GoBlog/context"
 	"GoBlog/service"
-	"net/http"
 )
 
-func (*HTMLApi) PigeonholePage(w http.ResponseWriter, r *http.Request) {
+func (*HTMLApi) PigeonholePage(ctx *context.MsContext) {
 	pigeonholeTemplate := common.Template.Pigeonhole
 	pigeonholeRes := service.FindPostPigeonhole()
-	pigeonholeTemplate.WriteData(w, pigeonholeRes)
+	pigeonholeTemplate.WriteData(ctx.W, pigeonholeRes)
 }

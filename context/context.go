@@ -97,9 +97,9 @@ func (ctx *MsContext) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// /c/1  /c/{id}
 	f := ctx.routers[path]
 
-	//存在路径参数 形如/c/{id}
+	//存在路径参数 形如/c/{id} 所以具体的请求/c/1是没有handler的
 	if f == nil {
-		for key, value := range ctx.routers {
+		for key, handler := range ctx.routers {
 			//判断是否为携带路径参数的
 			reg, _ := regexp.Compile("(/\\w+)*(/{\\w+})+(/\\w+)*")
 			match := reg.MatchString(key)
@@ -111,7 +111,7 @@ func (ctx *MsContext) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				//匹配上 存储路径对应参数 /c/1 /c/{id}  id=1
 				ctx.pathArgs[path] = args
 				//pre handler
-				value(ctx)
+				handler(ctx)
 				//post handler
 			}
 		}
@@ -142,7 +142,11 @@ func (ctx *MsContext) GetForm(key string) (string, error) {
 }
 func (ctx *MsContext) GetJson(key string) interface{} {
 	var params map[string]interface{}
-	body, _ := ioutil.ReadAll(ctx.Request.Body)
+	body, err := ioutil.ReadAll(ctx.Request.Body)
+	if err != nil {
+		log.Println("ioutil.ReadAll failed", err)
+		return err
+	}
 	_ = json.Unmarshal(body, &params)
 	return params[key]
 }

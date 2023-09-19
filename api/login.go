@@ -2,17 +2,16 @@ package api
 
 import (
 	"GoBlog/common"
+	"GoBlog/context"
 	"GoBlog/service"
-	"net/http"
 )
 
-func (*APIHandler) Login(w http.ResponseWriter, r *http.Request) {
-	params := common.GetRequestJsonParam(r)
-	userName := params["username"].(string)
-	passwd := params["passwd"].(string)
+func (*APIHandler) Login(ctx *context.MsContext) {
+	userName := ctx.GetJson("username").(string)
+	passwd := ctx.GetJson("passwd").(string)
 	loginRes, err := service.Login(userName, passwd)
 	if err != nil {
-		common.Error(w, err)
+		common.Error(ctx.W, err)
 	}
-	common.Success(w, *loginRes)
+	common.Success(ctx.W, *loginRes)
 }
