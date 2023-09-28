@@ -3,9 +3,9 @@ package server
 import (
 	"GoBlog/config"
 	"GoBlog/router"
+	"GoBlog/utils"
 	"fmt"
 	"github.com/BurntSushi/toml"
-	"log"
 	"net/http"
 )
 
@@ -26,7 +26,7 @@ func (*MyServer) Start() {
 		Addr: serverConfig.Server.Ip + ":" + serverConfig.Server.Port,
 	}
 
-	log.Printf("server running on %s:%s\n", serverConfig.Server.Ip, serverConfig.Server.Port)
+	utils.Logger.Infof("server running on %s:%s\n", serverConfig.Server.Ip, serverConfig.Server.Port)
 
 	//路由
 	router.Router()
