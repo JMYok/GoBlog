@@ -4,12 +4,14 @@ import (
 	"GoBlog/common"
 	"GoBlog/context"
 	"GoBlog/service"
+	"GoBlog/utils"
 )
 
 func (*APIHandler) Login(ctx *context.MsContext) {
-	userName := ctx.GetJson("username").(string)
-	passwd := ctx.GetJson("passwd").(string)
-	loginRes, err := service.Login(userName, passwd)
+	params := common.GetRequestJsonParam(ctx.Request)
+	username := params["username"].(string)
+	passwd := utils.Md5Crypt(params["passwd"].(string), "jmycool")
+	loginRes, err := service.Login(username, passwd)
 	if err != nil {
 		common.Error(ctx.W, err)
 	}

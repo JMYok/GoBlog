@@ -8,7 +8,7 @@ import (
 )
 
 func Login(userName, passwd string) (*models.LoginRes, error) {
-	user, err := dao.GetUser(userName, utils.Md5Crypt(passwd, "jmycool"))
+	user, err := dao.GetUser(userName, passwd)
 	if user == nil || err != nil {
 		return nil, errors.New("账号秘密不正确")
 	}

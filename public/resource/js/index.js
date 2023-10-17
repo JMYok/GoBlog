@@ -1,6 +1,6 @@
 var TOKEN_KEY = "AUTH_TOKEN";
 var USER_KEY = "USER_INFO";
-var SALT = "mszlu"; // 加盐
+var SALT = "jmycool"; // 加盐
 
 $(function () {
   // 登录
@@ -59,7 +59,7 @@ function loginLogic() {
     var MD5Passwd = new Hashes.MD5().hex(passwd + SALT);
     $.ajax({
       url: "/api/v1/login",
-      data: JSON.stringify({ username: name, passwd: MD5Passwd }),
+      data: JSON.stringify({ username: name, passwd: passwd }),
       contentType: "application/json",
       type: "POST",
       success: function (res) {
