@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-// 给字符串生成md5
+// Md5Crypt 给字符串生成md5
 // @params str 需要加密的字符串
 // @params salt interface{} 加密的盐
 // @return str 返回md5码

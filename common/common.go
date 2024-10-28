@@ -5,7 +5,7 @@ import (
 	models2 "GoBlog/models"
 	"GoBlog/models/template"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"sync"
@@ -30,7 +30,7 @@ func LoadTemplate() {
 
 func GetRequestJsonParam(r *http.Request) map[string]interface{} {
 	var params map[string]interface{}
-	body, _ := ioutil.ReadAll(r.Body)
+	body, _ := io.ReadAll(r.Body)
 	_ = json.Unmarshal(body, &params)
 	return params
 }
