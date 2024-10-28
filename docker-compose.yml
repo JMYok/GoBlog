@@ -24,15 +24,15 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: rootroot
       MYSQL_DATABASE: goblog
-    ports:
-      - "3306:3306"
+#    ports:
+#      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
 
   redis:
     image: redis:latest
-    ports:
-      - "6379:6379"
+#    ports:
+#      - "6379:6379"
     volumes:
       - redis_data:/data
 
