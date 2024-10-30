@@ -1,8 +1,10 @@
 package dao
 
 import (
+	"GoBlog/config"
 	"database/sql"
 	"fmt"
+	"github.com/BurntSushi/toml"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"net/url"
@@ -18,8 +20,21 @@ type MsDB struct {
 var DB MsDB
 
 func init() {
+	var mysqlTomlConfig config.MysqlTomlConfig
+	_, parseErr := toml.DecodeFile("config/mysql_config.toml", &mysqlTomlConfig)
+	if parseErr != nil {
+		log.Println("解析数据库配置异常")
+		panic(parseErr)
+	}
+	mysqlConfig := mysqlTomlConfig.Mysql
+	userName := mysqlConfig.UserName
+	password := mysqlConfig.Password
+	host := mysqlConfig.Host
+	port := mysqlConfig.Port
+	databaseName := mysqlConfig.DatabaseName
+
 	//执行main之前 先执行init方法
-	dataSourceName := fmt.Sprintf("root:rootroot@tcp(localhost:3307)/goblog?charset=utf8&loc=%s&parseTime=true", url.QueryEscape("Asia/Shanghai"))
+	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&loc=%s&parseTime=true", userName, password, host, port, databaseName, url.QueryEscape("Asia/Shanghai"))
 	//dataSourceName := fmt.Sprintf("root:rootroot@tcp(mysql:3306)/goblog?charset=utf8")
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {

@@ -1,0 +1,6 @@
+[mysql]
+UserName = "root"
+Password = "rootroot"
+Host = "localhost"
+Port = "3307"
+DatabaseName = "goblog"

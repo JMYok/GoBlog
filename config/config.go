@@ -14,6 +14,10 @@ type ServerTomlConfig struct {
 	Server ServerConfig
 }
 
+type MysqlTomlConfig struct {
+	Mysql MysqlConfig
+}
+
 type Viewer struct {
 	Title       string
 	Description string
@@ -35,6 +39,14 @@ type SystemConfig struct {
 	ValineAppid     string
 	ValineAppkey    string
 	ValineServerURL string
+}
+
+type MysqlConfig struct {
+	UserName     string
+	Password     string
+	Host         string
+	Port         string
+	DatabaseName string
 }
 
 type ServerConfig struct {
