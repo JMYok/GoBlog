@@ -31,7 +31,7 @@ COPY  /config ./config
 # 把静态文件拷贝到当前目录
 COPY /template ./template
 
-# 从builder镜像中把脚本拷贝到当前目录
+# 从拷贝到当前目录
 COPY /wait-for-it.sh .
 
 # 从编译阶段复制构建好的可执行文件
@@ -40,7 +40,9 @@ COPY --from=builder /build/main .
 RUN set -eux; \
     apk update; \
     apk add --no-cache bash netcat-openbsd; \
+    apk add --no-cache dos2unix && dos2unix wait-for-it.sh;\
     chmod 755 wait-for-it.sh
+
 
 
 # 暴露应用程序的端口

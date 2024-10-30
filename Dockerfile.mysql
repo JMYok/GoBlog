@@ -1,0 +1,6 @@
+FROM mysql:8.0
+
+# 复制 SQL 脚本到容器中的初始化目录
+COPY sql /docker-entrypoint-initdb.d
+
+

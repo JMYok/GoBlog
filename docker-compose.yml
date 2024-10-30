@@ -1,11 +1,8 @@
 version: "3.8"
 services:
   my-go-blog:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-    image: jmyok007/my-go-blog:v1.0
-    command: sh -c "/root/wait-for-it.sh mysql:3306 -t 120 && /root/wait-for-it.sh redis:6379 -- /root/main"
+    image: jmyok007/my-go-blog:v1.3
+    command: ["/bin/bash", "-c", "/root/wait-for-it.sh redis:6379 && /root/wait-for-it.sh mysql:3306 -t 60 -- /root/main"]
     ports:
       - "8080:8080"
     environment:
@@ -21,17 +18,19 @@ services:
       - redis
 
   mysql:
-    image: mysql:8.0
-#    command:  sh -c "apt-get update && apt-get install -y tzdata && docker-entrypoint.sh mysqld"
+    image: jmyok007/mysql8:goblog-v1.3
+    ports:
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: rootroot
       MYSQL_DATABASE: goblog
     volumes:
-      - ./sql:/docker-entrypoint-initdb.d # 将 SQL 脚本挂载到容器
-      - mysql_data:/var/lib/mysql # 必须在之后，否则上面的挂载无法触发，因为数据不为空
+      - mysql_data:/var/lib/mysql
 
   redis:
     image: redis:latest
+    ports:
+      - "6379:6379"
     volumes:
       - redis_data:/data
 
