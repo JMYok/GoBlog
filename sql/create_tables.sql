@@ -1,3 +1,4 @@
+use goblog;
 create table blog_category
 (
     cid       int auto_increment

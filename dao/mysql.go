@@ -5,6 +5,7 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
+	"net/url"
 	"reflect"
 	"strconv"
 	"time"
@@ -18,8 +19,8 @@ var DB MsDB
 
 func init() {
 	//执行main之前 先执行init方法
-	//dataSourceName := fmt.Sprintf("root:rootroot@tcp(localhost:3306)/goblog?charset=utf8&loc=%s&parseTime=true", url.QueryEscape("Asia/Shanghai"))
-	dataSourceName := fmt.Sprintf("root:rootroot@tcp(mysql:3306)/goblog?charset=utf8")
+	dataSourceName := fmt.Sprintf("root:rootroot@tcp(localhost:3307)/goblog?charset=utf8&loc=%s&parseTime=true", url.QueryEscape("Asia/Shanghai"))
+	//dataSourceName := fmt.Sprintf("root:rootroot@tcp(mysql:3306)/goblog?charset=utf8")
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
 		log.Println("连接数据库异常")

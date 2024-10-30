@@ -12,7 +12,7 @@ func Router() {
 	// 所有请求都交给实现 ServeHTTP 的 Context
 	http.Handle("/", context.Context)
 
-	//注册路由处理函数
+	//注册路由处理函数，插入前缀树
 	// 1.页面
 	context.Context.Handler("/", views.HTML.IndexPageNew)
 	context.Context.Handler("/c/{id}", views.HTML.CategoryNew)
@@ -22,13 +22,14 @@ func Router() {
 	context.Context.Handler("/pigeonhole", views.HTML.PigeonholePage)
 
 	// 2. api
+	context.Context.Handler("/api/v1/login", api.API.Login)
+
+	// 文章管理
 	context.Context.Handler("/api/v1/post", api.API.SaveAndUpdatePost)
 	context.Context.Handler("/api/v1/post/{pid}", api.API.GetPost)
 	context.Context.Handler("/api/v1/post/search", api.API.SearchPost)
-	context.Context.Handler("/api/v1/login", api.API.Login)
 
 	//3、静态资源映射
-	//TODO index.html 中 js路径为/resource 为什么默认public/resource
 	http.Handle("/public/resource/", http.StripPrefix("/public/resource/", http.FileServer(http.Dir("public/resource/"))))
 	http.Handle("/resource/", http.StripPrefix("/resource/", http.FileServer(http.Dir("public/resource/"))))
 	http.Handle("/c/resource/", http.StripPrefix("/c/resource/", http.FileServer(http.Dir("public/resource/"))))
